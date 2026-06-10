@@ -127,7 +127,7 @@ function Login() {
               /* --- FORGOT PASSWORD VIEW --- */
               <div className="forgot-password-flow">
                 <h2 className="portal-tagline fw-bold mb-2">Forgot Password?</h2>
-                <p className="portal-desc mb-4" style={{ color: 'var(--text-muted, #706961)' }}>
+                <p className="portal-desc mb-4" style={{ color: '#6B7280' }}>
                   {isSubmitted 
                     ? "Closely watch your inbox. We've sent a recovery link to your email address."
                     : "Enter your email address below and we'll send you a link to reset your password."}
@@ -160,8 +160,7 @@ function Login() {
                   <button 
                     onClick={() => setIsSubmitted(false)} 
                     className="btn-signin w-100 fw-semibold text-center mb-4 structural-secondary"
-                    style={{ background: 'transparent', border: '1px solid #cdbfa8', color: '#9c8c74' }}
-                  >
+                    style={{background: 'transparent',border: '1px solid #14B8A6',color: '#0F766E'}}>
                     Resend Email
                   </button>
                 )}

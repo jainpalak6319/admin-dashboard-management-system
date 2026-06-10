@@ -11,11 +11,11 @@ const AnimatedBackground = () => {
 
     // Base ribbon configuration (with baseline desktop amplitude)
     const baseWaves = [
-      { y: 0.3, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(243, 236, 218, 0.45)' }, // Champagne
-      { y: 0.4, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(221, 214, 203, 0.55)' }, // Taupe
-      { y: 0.5, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(208, 184, 150, 0.35)' }, // Caramel
-      { y: 0.6, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(250, 245, 232, 0.50)' }  // Ivory
-    ];
+  { y: 0.3, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(15, 118, 110, 0.18)' }, // Primary Teal
+  { y: 0.4, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(20, 184, 166, 0.22)' }, // Secondary Teal
+  { y: 0.5, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(34, 197, 94, 0.12)' },  // Success Green
+  { y: 0.6, length: 0.002, amplitude: 90, speed: 0.005, color: 'rgba(15, 118, 110, 0.15)' }   // Primary Teal
+];
 
     // Responsive adaptation & Sharp Retina display handling
     const resizeCanvas = () => {
@@ -51,9 +51,9 @@ const AnimatedBackground = () => {
 
       // Clear with elegant gradient background
       const baseGrad = ctx.createLinearGradient(0, 0, logicalWidth, logicalHeight);
-      baseGrad.addColorStop(0, '#f9f8f6');
-      baseGrad.addColorStop(0.5, '#f3f1ec');
-      baseGrad.addColorStop(1, '#eae6df');
+      baseGrad.addColorStop(0, '#F8FAFC');
+      baseGrad.addColorStop(0.5, '#EEFDFB');
+      baseGrad.addColorStop(1, '#DDF8F4');
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, logicalWidth, logicalHeight);
 
@@ -84,7 +84,7 @@ const AnimatedBackground = () => {
         ctx.strokeStyle = wave.color;
         ctx.lineWidth = isMobile ? 7 : 12; // Slimmer ribbons on smaller screens
         ctx.shadowBlur = isMobile ? 20 : 40; // Scale glow intensity for mobile
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+        ctx.shadowColor = 'rgba(20, 184, 166, 0.35)';
         ctx.stroke();
       });
 

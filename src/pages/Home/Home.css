@@ -1,0 +1,280 @@
+/* ── NexSphere Global Styles ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+
+:root {
+  --bg-main: #F8FAFC;
+  --bg-sidebar: #111827;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F9FAFB;
+  --bg-accent-light: rgba(20, 184, 166, 0.10);
+  --color-primary: #0F766E;
+  --color-primary-dark: #0D675F;
+  --color-primary-light: #14B8A6;
+  --color-gold: #14B8A6;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --color-text: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-light: #9CA3AF;
+  --color-sidebar-active-bg: rgba(20, 184, 166, 0.15);
+  --color-sidebar-icon: #9CA3AF;
+  --shadow-card: 0 2px 12px rgba(17, 24, 39, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(17, 24, 39, 0.12);
+  --shadow-sidebar: 2px 0 20px rgba(0, 0, 0, 0.18);
+  --radius-card: 18px;
+  --radius-sm: 10px;
+  --radius-xs: 7px;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-serif: 'DM Serif Display', serif;
+  --sidebar-w: 240px;
+  --header-h: 64px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-main);
+  color: var(--color-text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 118, 110, 0.35);
+  border-radius: 3px;
+}
+
+/* Utility */
+.text-muted-custom { color: var(--color-text-secondary); }
+.font-serif { font-family: var(--font-serif); }
+
+/* =========================
+   ROOT LAYOUT
+========================= */
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* =========================
+   SIDEBAR — desktop always visible
+========================= */
+.sidebar {
+  /* No transform on desktop — sidebar stays in place */
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+/* =========================
+   MOBILE MENU BUTTON
+   Hidden on desktop. The inline style on the element
+   has display:flex, so we use !important here ONLY for
+   this single toggle — it's the correct tool for this job.
+========================= */
+.mobile-menu-btn {
+  display: none !important;
+}
+
+/* =========================
+   DASHBOARD LAYOUT CLASSES
+   All layout lives here so media queries can override cleanly.
+========================= */
+.dashboard-container {
+  padding: 28px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.dashboard-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+/* 4-column grid on desktop */
+.dashboard-metrics {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Side-by-side on desktop */
+.dashboard-bottom {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dashboard-activities {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-completion {
+  flex: 1;
+  min-width: 0;
+}
+
+/* =========================
+   HEADER ACTIONS
+========================= */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Quick Add label & New Report text — visible on desktop */
+.quick-add-label {
+  display: inline;
+}
+
+.header-new-report-text {
+  display: inline;
+}
+
+/* =========================
+   SIDEBAR OVERLAY
+========================= */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 90;
+  /* Hidden on desktop — pointer-events off so it never blocks clicks */
+  pointer-events: none;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* =========================
+   TABLET  (≤ 1024px)
+========================= */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-w: 220px;
+  }
+
+  .dashboard-metrics {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* =========================
+   MOBILE  (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+  /* Main content: no sidebar margin */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Sidebar slides in as overlay */
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Show hamburger */
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+  }
+
+  /* Header: shrink page title, hide breadcrumb path */
+  .breadcrumb-path {
+    display: none !important;
+  }
+
+  .page-title-text {
+   display: none !important;
+  }
+
+
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  /* Greeting stacks */
+  .dashboard-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* 2-column metrics on mobile */
+  .dashboard-metrics {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
+  }
+
+  /* Stack bottom panels */
+  .dashboard-bottom {
+    flex-direction: column;
+  }
+
+  .dashboard-activities,
+  .dashboard-completion {
+    width: 100%;
+  }
+
+  /* Header actions compact */
+  .header-actions {
+    gap: 6px;
+  }
+
+  .header-actions button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE  (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+
+  /* Single column on very small screens */
+  .dashboard-metrics {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* Hide text labels to keep header actions on one line */
+  .quick-add-label {
+    display: none;
+  }
+
+  .header-new-report-text {
+    display: none;
+  }
+}
