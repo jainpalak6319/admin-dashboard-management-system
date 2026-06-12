@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 import AnimatedBackground from '../../components/AnimatedBackground';
 import './Signup.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -15,7 +18,7 @@ function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [errors, setErrors] = useState({});
-
+  const [loading, setLoading] = useState(false);
   const validateForm = () => {
     const newErrors = {};
 
@@ -56,23 +59,33 @@ function Signup() {
       return;
     }
 
-    const payload = {
+    try {
+  setLoading(true);
+
+  await axios.post(
+    "http://localhost:5000/api/auth/register",
+    {
       fullName,
       email,
       password,
-    };
-
-    try {
-      console.log('Signup Payload:', payload);
-
-      // JWT API Integration Placeholder
-      // const response = await axios.post('/api/auth/register', payload);
-
-      // On successful registration
-      navigate('/login');
-    } catch (error) {
-      console.error(error);
+      confirmPassword,
     }
+  );
+
+  toast.success("Account created successfully!");
+
+  setTimeout(() => {
+    navigate("/login");
+  }, 1500);
+
+} catch (error) {
+  toast.error(
+    error.response?.data?.message ||
+    "Registration failed"
+  );
+} finally {
+  setLoading(false);
+}
   };
 
   return (
@@ -134,8 +147,17 @@ function Signup() {
                     className="form-control-custom w-100"
                     placeholder="Enter your full name"
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                  />
+                  onChange={(e) => {
+  setFullName(e.target.value);
+
+  if (errors.fullName) {
+    setErrors(prev => ({
+      ...prev,
+      fullName: "",
+    }));
+  }
+}}
+required />
                 </div>
 
                 {errors.fullName && (
@@ -165,8 +187,17 @@ function Signup() {
                     className="form-control-custom w-100"
                     placeholder="Enter your email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                   onChange={(e) => {
+  setEmail(e.target.value);
+
+  if (errors.email) {
+    setErrors(prev => ({
+      ...prev,
+      email: "",
+    }));
+  }
+}}
+required />
                 </div>
 
                 {errors.email && (
@@ -196,8 +227,17 @@ function Signup() {
                     className="form-control-custom w-100 pe-5"
                     placeholder="Create a password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                    onChange={(e) => {
+  setPassword(e.target.value);
+
+  if (errors.password) {
+    setErrors(prev => ({
+      ...prev,
+      password: "",
+    }));
+  }
+}}
+required />
 
                   <button
                     type="button"
@@ -239,8 +279,17 @@ function Signup() {
                     className="form-control-custom w-100 pe-5"
                     placeholder="Confirm your password"
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
+                   onChange={(e) => {
+  setConfirmPassword(e.target.value);
+
+  if (errors.confirmPassword) {
+    setErrors(prev => ({
+      ...prev,
+      confirmPassword: "",
+    }));
+  }
+}}
+required />
 
                   <button
                     type="button"
@@ -265,12 +314,13 @@ function Signup() {
               </div>
 
               {/* Create Account Button */}
-              <button
-                type="submit"
+                <button
+                 type="submit"
+                disabled={loading}
                 className="btn-signup w-100 fw-semibold text-center mb-3"
-              >
-                Create Account
-              </button>
+                >
+               {loading ? "Creating Account..." : "Create Account"}
+               </button>
 
               {/* Login Link */}
               <div className="text-center">
@@ -297,6 +347,11 @@ function Signup() {
       <div className="sparkle-icon position-fixed bottom-0 end-0 m-4">
         <i className="bi bi-sparkles"></i>
       </div>
+        <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      theme="light"
+    />
     </div>
   );
 }

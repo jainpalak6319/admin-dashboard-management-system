@@ -46,21 +46,23 @@ function Login() {
       //   { email, password }
       // );
 
-      const mockResponse = {
-        token: "jwt-token",
-        user: {
-          email,
-          role: "admin",
-        },
-      };
+      const response = await axios.post(
+  "http://localhost:5000/api/auth/login",
+  {
+    email,
+    password,
+  }
+);
 
-      if (rememberMe) {
-        localStorage.setItem("token", mockResponse.token);
-        localStorage.setItem("user", JSON.stringify(mockResponse.user));
-      } else {
-        sessionStorage.setItem("token", mockResponse.token);
-        sessionStorage.setItem("user", JSON.stringify(mockResponse.user));
-      }
+const { token, user } = response.data;
+
+    if (rememberMe) {
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
+} else {
+  sessionStorage.setItem("token", token);
+  sessionStorage.setItem("user", JSON.stringify(user));
+}
 
       toast.success("Login successful!");
 
